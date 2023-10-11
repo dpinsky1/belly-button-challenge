@@ -25,15 +25,17 @@ d3.json(url).then(function (data) {
     bubbleChart(samples[0]);
 });
 
+// Viz Updater Function
 function optionChanged(value) {
     const selectedId = samples.find((item) => item.id === value);
-    const demographicInfo = meta_data.find((item) => item.id == value);
+    const demographicInfo = meta_Data.find((item) => item.id == value);
     metaData(demographicInfo);
-    barChart(selectedId);
+    
     bubbleChart(selectedId);
-
+barChart(selectedId);
 }
 
+// MetaData Gathering Function
 function metaData(demographicInfo) {
     let demography = d3.select("#sample-metadata");
 
@@ -48,6 +50,7 @@ function metaData(demographicInfo) {
     );
 }
 
+// Bar Chart Function
 function barChart(selectedId) {
     let x_axis = selectedId.sample_values.slice(0, 10).reverse();
     let y_axis = selectedId.otu_ids
@@ -56,7 +59,7 @@ function barChart(selectedId) {
         .map((item) => `OTU ${item}`);
     let text = selectedId.otu_labels.slice(0, 10).reverse();
 
-    barChart = {
+    bar_chart = {
         x: x_axis,
         y: y_axis,
         text: text,
@@ -64,7 +67,7 @@ function barChart(selectedId) {
         orientation: "h",
     };
 
-    let chart = [barChart];
+    let chart = [bar_chart];
 
     let layout = {
         margin: {
@@ -80,6 +83,7 @@ function barChart(selectedId) {
     Plotly.newPlot("bar", chart, layout);
 }
 
+// Bubble Chart Function
 function bubbleChart(selectedId) {
     let x_axis = selectedId.otu_ids;
     let y_axis = selectedId.sample_values;
